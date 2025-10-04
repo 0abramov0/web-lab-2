@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <filter>
+        <filter-name>LoggingFilter</filter-name>
+        <filter-class>filters.LoggingFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>XValidationFilter</filter-name>
+        <filter-class>filters.XValidationFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>YValidationFilter</filter-name>
+        <filter-class>filters.YValidationFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>RValidationFilter</filter-name>
+        <filter-class>filters.RValidationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>XValidationFilter</filter-name>
+        <url-pattern>/controller</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>YValidationFilter</filter-name>
+        <url-pattern>/controller</url-pattern>
+    </filter-mapping><filter-mapping>
+    <filter-name>RValidationFilter</filter-name>
+    <url-pattern>/controller</url-pattern>
+</filter-mapping>
+
+</web-app>
