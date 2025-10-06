@@ -31,8 +31,12 @@
 
 ## Сборка и деплой
 ### Сборка
-```mvn clean package```
+``` bash
+mvn clean package
+```
 ### Деплой
-```mvn wildfly:deploy```
+``` bash
+mvn wildfly:deploy
+```
 
 По-умолчанию веб-сайт будет доступен по адресу ```localhost:8080```.
