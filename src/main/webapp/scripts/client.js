@@ -5,7 +5,18 @@ const errorMessage = document.getElementById("error-message");
 const canvas = document.getElementById('graph-section');
 const rButtons = document.querySelectorAll('input[name=r]')
 const form = document.getElementById("input-form");
-createGraph();
+
+window.addEventListener('DOMContentLoaded', () => {
+    createGraph();
+
+    if (window.savedPoints && window.savedPoints.length > 0) {
+        window.savedPoints.forEach(point => {
+            const x = (point.x / point.r) * scale;
+            const y = (point.y / point.r) * scale;
+            drawPoint(x, y);
+        });
+    }
+});
 
 window.onload = function() {
     if(document.querySelector('input[name="r"]:checked') != null) {
@@ -24,8 +35,6 @@ canvas.addEventListener("click", function (e) {
         const rect = canvas.getBoundingClientRect();
         const x = (event.clientX - (rect.right + rect.left) / 2) / scale * r;
         const y = ((rect.top + rect.bottom) / 2 - event.clientY) / scale * r;
-
-        drawPoint((event.clientX - (rect.right + rect.left) / 2), ((rect.top + rect.bottom) / 2 - event.clientY));
 
         const xCheckboxes = form.querySelectorAll('input[name="x"]');
         xCheckboxes.forEach(checkbox => {

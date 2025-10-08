@@ -1,12 +1,11 @@
 package filters;
 
 import jakarta.servlet.*;
-import jakarta.servlet.http.HttpFilter;
 import models.PointValidator;
 
 import java.io.IOException;
 
-public abstract class AbstractValidationFilter extends HttpFilter {
+public abstract class AbstractValidationFilter implements Filter {
     public final PointValidator validator;
     public final String attributeName;
 
@@ -29,6 +28,9 @@ public abstract class AbstractValidationFilter extends HttpFilter {
                 request.setAttribute("validationError", true);
                 request.setAttribute("errorMessage", e.getMessage());
             }
+        } else {
+            request.setAttribute("validationError", true);
+            request.setAttribute("errorMessage", attributeName + " can't be null");
         }
         chain.doFilter(request, response);
     }
