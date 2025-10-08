@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import models.PointValidator;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
@@ -32,7 +31,6 @@ public class ControllerServlet extends HttpServlet {
 
         Boolean isValidationError = (Boolean) request.getAttribute("validationError");
         if (isValidationError != null && isValidationError) {
-            System.out.println("Error happened: " + request.getAttribute("errorMessage"));
             context.setAttribute("isError", true);
             context.setAttribute("errorMessage", request.getAttribute("errorMessage"));
             request.getRequestDispatcher("./index.jsp").forward(request, response);

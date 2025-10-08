@@ -11,10 +11,14 @@ public class AreaCheckResultRepository {
     }
 
     public void addResult(AreaCheckResult result) {
-        results.add(result);
+        synchronized (results) {
+            results.add(result);
+        }
     }
 
     public List<AreaCheckResult> getResults() {
-        return results;
+        synchronized (results) {
+            return new ArrayList<>(results);
+        }
     }
 }
