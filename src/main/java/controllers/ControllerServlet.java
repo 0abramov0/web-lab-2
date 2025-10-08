@@ -30,12 +30,12 @@ public class ControllerServlet extends HttpServlet {
         context.setAttribute("isError", false);
 
         Boolean isValidationError = (Boolean) request.getAttribute("validationError");
-        if(isValidationError != null && isValidationError) {
+        if (isValidationError != null && isValidationError) {
             System.out.println("Error happened: " + request.getAttribute("errorMessage"));
             context.setAttribute("isError", true);
             context.setAttribute("errorMessage", request.getAttribute("errorMessage"));
             request.getRequestDispatcher("./index.jsp").forward(request, response);
-        } else{
+        } else {
             context.setAttribute("x", xValues);
             context.setAttribute("y", y);
             context.setAttribute("r", r);

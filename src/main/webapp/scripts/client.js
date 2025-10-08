@@ -1,4 +1,4 @@
-import {createGraph, scale} from './canvas.js';
+import {createGraph, scale, drawPoint} from './canvas.js';
 import {validateX, validateY, validateR} from './validator.js';
 
 const errorMessage = document.getElementById("error-message");
@@ -25,6 +25,8 @@ canvas.addEventListener("click", function (e) {
         const x = (event.clientX - (rect.right + rect.left) / 2) / scale * r;
         const y = ((rect.top + rect.bottom) / 2 - event.clientY) / scale * r;
 
+        drawPoint((event.clientX - (rect.right + rect.left) / 2), ((rect.top + rect.bottom) / 2 - event.clientY));
+
         const xCheckboxes = form.querySelectorAll('input[name="x"]');
         xCheckboxes.forEach(checkbox => {
             checkbox.checked = false;
@@ -49,7 +51,6 @@ canvas.addEventListener("click", function (e) {
         });
 
         form.submit();
-        targetXCheckbox.remove();
     } else {
         errorMessage.hidden = false;
         errorMessage.textContent = "Choose r";

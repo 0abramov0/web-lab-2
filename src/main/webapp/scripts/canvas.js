@@ -80,4 +80,10 @@ function createGraph() {
     ctx.strokeText("-R", centerX + 5, centerY + scale);
 }
 
-export {createGraph, scale};
+function drawPoint(x, y) {
+    ctx.beginPath();
+    ctx.arc(centerX + x, centerY - y + 18, 3, 0, 2 * Math.PI);
+    ctx.fill();
+}
+
+export {createGraph, scale, drawPoint};

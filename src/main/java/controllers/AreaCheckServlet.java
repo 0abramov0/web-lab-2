@@ -42,7 +42,7 @@ public class AreaCheckServlet extends HttpServlet {
         String y = (String) context.getAttribute("y");
         String r = (String) context.getAttribute("r");
 
-        for(String x: xValues) {
+        for (String x : xValues) {
             Point point = new Point(x, y, r);
             boolean isHit = hitChecker.checkHit(point);
             AreaCheckResult result = new AreaCheckResult(point, isHit);

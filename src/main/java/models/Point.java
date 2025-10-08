@@ -1,6 +1,6 @@
 package models;
 
-public record Point (String xStr, String yStr, String rStr){
+public record Point(String xStr, String yStr, String rStr) {
     public double getXAsDouble() {
         return Math.round(Float.parseFloat(xStr) * 1000) / 1000.0;
     }
