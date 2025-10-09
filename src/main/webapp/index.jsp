@@ -2,11 +2,12 @@
 <%@ page import="models.AreaCheckResult" %>
 <%@ page import="models.AreaCheckResultRepository" %>
 <%@ page import="models.Point" %>
+<%@ page import="models.ErrorMessage" %>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lab 1</title>
+    <title>Lab 2</title>
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/validator.js"></script>
     <script type="module" src="scripts/canvas.js"></script>
@@ -99,18 +100,10 @@
         <% ServletContext context = getServletContext(); %>
         <div id="error-message">
             <%
-                    if (context.getAttribute("isError") != null) {
-                        Boolean isError = (Boolean) context.getAttribute("isError");
-                        String errorMessage;
-                        Object errorMessageObj = context.getAttribute("errorMessage");
-                        if(errorMessageObj == null) {
-                            errorMessage = "";
-                        } else {
-                            errorMessage = (String) errorMessageObj;
-                        }
-                        System.out.println(errorMessage);
-                    if(isError) { %>
-                        <%= errorMessage %>
+                if (context.getAttribute("error") != null) {
+                    ErrorMessage errorMessage = (ErrorMessage) context.getAttribute("error");
+                    if(errorMessage.isError()) { %>
+                        <%= errorMessage.toString() %>
                     <%
                         }
                     }

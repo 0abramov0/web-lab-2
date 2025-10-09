@@ -36,7 +36,6 @@ public class AreaCheckServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         ServletContext context = getServletContext();
-        context.setAttribute("isError", false);
 
         String[] xValues = (String[]) context.getAttribute("x");
         String y = (String) context.getAttribute("y");

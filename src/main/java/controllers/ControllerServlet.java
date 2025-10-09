@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.ErrorMessage;
 import models.PointValidator;
 
 import java.io.IOException;
@@ -22,25 +23,18 @@ public class ControllerServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        String[] xValues = request.getParameterValues("x");
-        String y = request.getParameter("y");
-        String r = request.getParameter("r");
-
         ServletContext context = getServletContext();
-        context.setAttribute("isError", false);
 
-        Boolean isValidationError = (Boolean) request.getAttribute("validationError");
-        if (isValidationError != null && isValidationError) {
-            context.setAttribute("isError", true);
-            context.setAttribute("errorMessage", request.getAttribute("errorMessage"));
+        ErrorMessage errorMessage = (ErrorMessage) request.getAttribute("error");
+        context.setAttribute("error", errorMessage);
+        if (errorMessage != null && errorMessage.isError()) {
             request.getRequestDispatcher("./index.jsp").forward(request, response);
         } else {
-            context.setAttribute("x", xValues);
-            context.setAttribute("y", y);
-            context.setAttribute("r", r);
+            context.setAttribute("x", request.getAttribute("x"));
+            context.setAttribute("y", request.getAttribute("y"));
+            context.setAttribute("r", request.getAttribute("r"));
             context.setAttribute("allowedFromController", true);
             request.getRequestDispatcher("./area-check").forward(request, response);
         }
     }
-
 }
