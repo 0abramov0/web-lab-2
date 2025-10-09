@@ -1,22 +1,57 @@
 import {createGraph, scale, drawPoint} from './canvas.js';
 import {validateX, validateY, validateR} from './validator.js';
 
+let config = {};
+await fetch('./config.json')
+  .then(response => response.json())
+  .then(data => {
+    config = data;
+});
+
 const errorMessage = document.getElementById("error-message");
 const canvas = document.getElementById('graph-section');
 const rButtons = document.querySelectorAll('input[name=r]')
 const form = document.getElementById("input-form");
 
-window.addEventListener('DOMContentLoaded', () => {
-    createGraph();
+createGraph();
 
-    if (window.savedPoints && window.savedPoints.length > 0) {
-        window.savedPoints.forEach(point => {
-            const x = (point.x / point.r) * scale;
-            const y = (point.y / point.r) * scale;
-            drawPoint(x, y);
-        });
+async function processRequest(xValues, y, r) {
+    const params = new URLSearchParams();
+
+    xValues.forEach(x => {
+        params.append("x", x);
+    });
+    params.append("y", y);
+    params.append("r", r);
+
+    const response = await fetch(config.serverApi, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        body: params
+    });
+    if(response.ok) {
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        const newTable = doc.getElementById("result-table");
+        const oldTable = document.getElementById("result-table");
+
+        if (newTable && oldTable) {
+            oldTable.innerHTML = newTable.innerHTML;
+        }
+
+        const newErrorMessage = doc.getElementById("error-message");
+        const oldErrorMessage = document.getElementById("error-message");
+        if (newErrorMessage && oldErrorMessage) {
+            oldErrorMessage.innerHTML = newErrorMessage.innerHTML;
+            const hasError = newErrorMessage.innerHTML.trim() !== '';
+            oldErrorMessage.hidden = !hasError;
+        }
     }
-});
+}
 
 window.onload = function() {
     if(document.querySelector('input[name="r"]:checked') != null) {
@@ -28,7 +63,7 @@ rButtons.forEach(rButton => rButton.addEventListener("change", function (e) {
     document.getElementById("graph-section").style.cursor = "pointer";
 }));
 
-canvas.addEventListener("click", function (e) {
+canvas.addEventListener("click", async function (e) {
     if(document.querySelector('input[name="r"]:checked') != null) {
         const r = parseInt(document.querySelector('input[name="r"]:checked').value);
         validateR(r);
@@ -36,30 +71,8 @@ canvas.addEventListener("click", function (e) {
         const x = (event.clientX - (rect.right + rect.left) / 2) / scale * r;
         const y = ((rect.top + rect.bottom) / 2 - event.clientY) / scale * r;
 
-        const xCheckboxes = form.querySelectorAll('input[name="x"]');
-        xCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-
-        const targetXCheckbox = form.querySelector(`input[name="x"][value="${x}"]`);
-        if (targetXCheckbox) {
-            targetXCheckbox.checked = true;
-        } else {
-            const hiddenXInput = document.createElement('input');
-            hiddenXInput.type = 'hidden';
-            hiddenXInput.name = 'x';
-            hiddenXInput.value = x.toString();
-            form.appendChild(hiddenXInput);
-        }
-        const yInput = document.getElementById("enter-y");
-        yInput.value = y.toString();
-
-        const rInputs = form.querySelectorAll('input[name="r"]');
-        rInputs.forEach(input => {
-            input.checked = (input.value == r);
-        });
-
-        form.submit();
+        processRequest([x], y, r);
+        drawPoint(x * scale / r, y * scale / r);
     } else {
         errorMessage.hidden = false;
         errorMessage.textContent = "Choose r";
@@ -67,6 +80,7 @@ canvas.addEventListener("click", function (e) {
 });
 
 form.addEventListener("submit", async function (e) {
+    e.preventDefault();
     errorMessage.hidden = true;
     errorMessage.textContent = "";
 
@@ -74,18 +88,18 @@ form.addEventListener("submit", async function (e) {
     if (xCheckboxes.length === 0) {
         errorMessage.textContent = "Select at least one X value";
         errorMessage.hidden = false;
-        e.preventDefault();
         return;
     }
 
+    const xValues = []
     xCheckboxes.forEach(checkbox => {
         const value = parseInt(checkbox.value);
         try {
             validateX(value);
+            xValues.push(value);
         } catch (error) {
             errorMessage.textContent = error.message;
             errorMessage.hidden = false;
-            e.preventDefault();
             return;
         }
     });
@@ -96,7 +110,6 @@ form.addEventListener("submit", async function (e) {
     } catch (error) {
         errorMessage.textContent = error.message;
         errorMessage.hidden = false;
-        e.preventDefault();
         return;
     }
 
@@ -106,7 +119,7 @@ form.addEventListener("submit", async function (e) {
     } catch (error) {
         errorMessage.textContent = error.message;
         errorMessage.hidden = false;
-        e.preventDefault();
         return;
     }
+    processRequest(xValues, y, r);
 });

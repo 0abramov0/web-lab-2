@@ -9,8 +9,8 @@ public record Point(String xStr, String yStr, String rStr) {
         return Math.round(Double.parseDouble(yStr) * 1000) / 1000.0;
     }
 
-    public int getRAsInteger() {
-        return Integer.parseInt(rStr);
+    public long getRAsLong() {
+        return Long.parseLong(rStr);
     }
 
     @Override

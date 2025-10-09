@@ -6,7 +6,7 @@ public class RValidationFilter extends AbstractValidationFilter {
     }
 
     @Override
-    public void doValidation(String value) throws IllegalArgumentException {
+    protected void doValidation(String value) throws IllegalArgumentException {
         validator.validateR(value);
     }
 }

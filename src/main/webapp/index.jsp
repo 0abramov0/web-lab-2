@@ -108,8 +108,9 @@
                         } else {
                             errorMessage = (String) errorMessageObj;
                         }
+                        System.out.println(errorMessage);
                     if(isError) { %>
-                        <p><%= errorMessage %></p>
+                        <%= errorMessage %>
                     <%
                         }
                     }
@@ -135,7 +136,7 @@
             <tr>
                 <th> <%= point.getXAsDouble() %> </th>
                 <th> <%= point.getYAsDouble() %> </th>
-                <th> <%= point.getRAsInteger() %> </th>
+                <th> <%= point.getRAsLong() %> </th>
                 <th> <%= result.isHit() %> </th>
             </tr>
             <%
@@ -150,15 +151,6 @@
         <canvas id="graph" width="500" height="500"></canvas>
     </section>
 </main>
-<script>
-    window.savedPoints = [
-        <% for (AreaCheckResult result: repository.getResults()) {
-            Point point = result.point();
-        %>
-            { x: <%= point.getXAsDouble() %>, y: <%= point.getYAsDouble() %>, r: <%= point.getRAsInteger() %> },
-        <% } %>
-    ];
-</script>
 <script type="module" src="scripts/client.js"></script>
 </body>
 </html>

@@ -14,12 +14,18 @@ public abstract class AbstractValidationFilter implements Filter {
         this.validator = new PointValidator();
     }
 
-    public abstract void doValidation(String value) throws IllegalArgumentException;
+    protected abstract void doValidation(String value) throws IllegalArgumentException;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String[] values = request.getParameterValues(attributeName);
-        if (values != null) {
+
+        Boolean isValidationError = (Boolean) request.getAttribute("validationError");
+        if (isValidationError != null && isValidationError) {
+            chain.doFilter(request, response);
+            return;
+        }
+        if (values != null && values.length > 0) {
             try {
                 for (String value : values) {
                     doValidation(value);
