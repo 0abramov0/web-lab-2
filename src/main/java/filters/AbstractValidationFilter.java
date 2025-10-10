@@ -28,10 +28,9 @@ public abstract class AbstractValidationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String[] values = request.getParameterValues(attributeName);
+        String[] values = (String[]) request.getAttribute(attributeName);
         List<String> validatedValues = new ArrayList<>();
         ErrorMessage errorMessage = new ErrorMessage();
-
         if (isValidationError(request)) {
             chain.doFilter(request, response);
             return;

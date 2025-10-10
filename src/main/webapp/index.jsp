@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="scripts/validator.js"></script>
     <script type="module" src="scripts/canvas.js"></script>
+    <script type="module" src="scripts/utils.js"></script>
 </head>
 <body>
 <header>
@@ -115,7 +116,7 @@
                         <td> ${result.point.x} </td>
                         <td> ${result.point.y} </td>
                         <td> ${result.point.r} </td>
-                        <td> ${result.hit} </td>
+                        <td> ${result.hit ? "Hit" : "Miss"} </td>
                     </tr>
                 </c:forEach>
             </c:if>

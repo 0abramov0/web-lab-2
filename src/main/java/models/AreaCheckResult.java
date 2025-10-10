@@ -5,9 +5,9 @@ public class AreaCheckResult {
     private final boolean hit;
 
 
-    public AreaCheckResult(Point point, boolean isHit) {
+    public AreaCheckResult(Point point, boolean hit) {
         this.point = point;
-        this.hit = isHit;
+        this.hit = hit;
     }
 
     public boolean isHit() {

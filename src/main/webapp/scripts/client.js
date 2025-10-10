@@ -1,5 +1,6 @@
 import {createGraph, scale, drawPoint} from './canvas.js';
 import {validateX, validateY, validateR} from './validator.js';
+import {round} from './utils.js';
 
 let config = {};
 await fetch('./config.json')
@@ -104,7 +105,7 @@ form.addEventListener("submit", async function (e) {
         }
     });
 
-    const y = parseFloat(document.getElementById("enter-y").value);
+    const y = parseFloat(round(document.getElementById("enter-y").value));
     try {
         validateY(y);
     } catch (error) {

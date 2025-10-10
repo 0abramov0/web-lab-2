@@ -2,6 +2,8 @@ package models;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PointValidator {
     public void validateX(String xStr) throws IllegalArgumentException {
@@ -18,12 +20,12 @@ public class PointValidator {
         }
     }
 
-    public void validateY(String yString) {
-        if (yString == null || yString.isEmpty()) {
+    public void validateY(String yStr) {
+        if (yStr == null || yStr.isEmpty()) {
             throw new IllegalArgumentException("Y can't be null");
         }
         try {
-            double y = Double.parseDouble(yString);
+            double y = Double.parseDouble(yStr);
             if (y >= 3 || y <= -3) {
                 throw new IllegalArgumentException("Y must be less than 3 and more than -3");
             }
