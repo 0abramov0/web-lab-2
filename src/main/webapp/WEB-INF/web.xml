@@ -8,6 +8,10 @@
     <filter>
         <filter-name>RoundFilter</filter-name>
         <filter-class>filters.RoundFilter</filter-class>
+        <init-param>
+            <param-name>paramNames</param-name>
+            <param-value>x,y,r</param-value>
+        </init-param>
     </filter>
     <filter>
         <filter-name>XValidationFilter</filter-name>

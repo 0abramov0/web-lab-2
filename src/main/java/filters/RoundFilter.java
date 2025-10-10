@@ -9,7 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RoundFilter implements Filter {
-    String[] expectedParameters = {"x", "y", "r"};
+    private String[] expectedParameters;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        String paramNamesStr = filterConfig.getInitParameter("paramNames");
+        expectedParameters = paramNamesStr.split(",");
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
