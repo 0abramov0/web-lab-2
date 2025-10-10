@@ -22,6 +22,7 @@ public class RoundFilter implements Filter {
         for (String parameterName : expectedParameters) {
             List<String> roundedValues = new ArrayList<>();
             String[] values = request.getParameterValues(parameterName);
+            if(values == null) continue;
             for (String value : values) {
                 roundedValues.add(roundFloatValues(value));
             }
