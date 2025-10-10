@@ -13,7 +13,7 @@ public class YValidationFilter extends AbstractValidationFilter {
     }
 
     @Override
-    protected Object filterValues(List<String> values) {
+    protected Object castFilteredValues(List<String> values) {
         if (values.isEmpty()) {
             return null;
         }

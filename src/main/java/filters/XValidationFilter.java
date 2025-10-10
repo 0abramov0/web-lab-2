@@ -13,7 +13,7 @@ public class XValidationFilter extends AbstractValidationFilter {
     }
 
     @Override
-    protected Object filterValues(List<String> values) {
+    protected Object castFilteredValues(List<String> values) {
         if (values == null || values.isEmpty()) {
             return null;
         }

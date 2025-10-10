@@ -19,7 +19,7 @@ public abstract class AbstractValidationFilter implements Filter {
 
     protected abstract void validateAttribute(String value) throws IllegalArgumentException;
 
-    protected abstract Object filterValues(List<String> values);
+    protected abstract Object castFilteredValues(List<String> values);
 
     private boolean isValidationError(ServletRequest request) {
         ErrorMessage errorMessage = (ErrorMessage) request.getAttribute("error");
@@ -45,7 +45,7 @@ public abstract class AbstractValidationFilter implements Filter {
                     errorMessage.addMessage(e.getMessage());
                 }
             }
-            Object filteredValues = filterValues(validatedValues);
+            Object filteredValues = castFilteredValues(validatedValues);
             if (filteredValues == null) {
                 errorMessage.setError(true);
             }
