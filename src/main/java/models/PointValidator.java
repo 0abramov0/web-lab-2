@@ -4,12 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PointValidator {
-    public void validatePoint(Point point) throws IllegalArgumentException {
-        validateX(point.xStr());
-        validateY(point.yStr());
-        validateR(point.rStr());
-    }
-
     public void validateX(String xStr) throws IllegalArgumentException {
         if (xStr == null || xStr.isEmpty()) {
             throw new IllegalArgumentException("X can't be null");

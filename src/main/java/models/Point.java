@@ -1,24 +1,34 @@
 package models;
 
-public record Point(String xStr, String yStr, String rStr) {
-    public double getXAsDouble() {
-        return Math.round(Float.parseFloat(xStr) * 1000) / 1000.0;
+public class Point {
+    private final double x;
+    private final double y;
+    private final long r;
+
+    public Point(double x, double y, long r) {
+        this.x = Math.round(x * 1000) / 1000.0;;
+        this.y = Math.round(y * 1000) / 1000.0;;
+        this.r = r;
     }
 
-    public double getYAsDouble() {
-        return Math.round(Double.parseDouble(yStr) * 1000) / 1000.0;
+    public double getX() {
+        return x;
     }
 
-    public long getRAsLong() {
-        return Long.parseLong(rStr);
+    public double getY() {
+        return y;
+    }
+
+    public long getR() {
+        return r;
     }
 
     @Override
     public String toString() {
         return "Point{" +
-                "xStr='" + xStr + '\'' +
-                ", yStr='" + yStr + '\'' +
-                ", rStr='" + rStr + '\'' +
+                "x='" + x + '\'' +
+                ", y='" + y + '\'' +
+                ", r='" + r + '\'' +
                 '}';
     }
 }

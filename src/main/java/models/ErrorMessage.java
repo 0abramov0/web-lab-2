@@ -1,20 +1,20 @@
 package models;
 
 public class ErrorMessage {
-    private boolean isError;
+    private boolean error;
     private final StringBuilder errorMessage;
 
     public ErrorMessage() {
-        isError = false;
+        error = false;
         errorMessage = new StringBuilder();
     }
 
     public boolean isError() {
-        return isError;
+        return error;
     }
 
     public void setError(boolean error) {
-        isError = error;
+        this.error = error;
     }
 
     public void addMessage(String message) {

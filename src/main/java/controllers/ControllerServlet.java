@@ -7,13 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ErrorMessage;
-import models.PointValidator;
 
 import java.io.IOException;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
-    private final PointValidator validator = new PointValidator();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

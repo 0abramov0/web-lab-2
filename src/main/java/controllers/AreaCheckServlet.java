@@ -9,10 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import models.*;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/area-check")
 public class AreaCheckServlet extends HttpServlet {
-    private final PointValidator validator = new PointValidator();
     private final HitChecker hitChecker = new HitChecker();
     private final AreaCheckResultRepository repository = new AreaCheckResultRepository();
 
@@ -37,11 +39,11 @@ public class AreaCheckServlet extends HttpServlet {
             throws IOException, ServletException {
         ServletContext context = getServletContext();
 
-        String[] xValues = (String[]) context.getAttribute("x");
-        String y = (String) context.getAttribute("y");
-        String r = (String) context.getAttribute("r");
+        List<Double> xValues = Arrays.stream((String[]) context.getAttribute("x")).map(Double::parseDouble).toList();
+        double y = Double.parseDouble(context.getAttribute("y").toString());
+        long r = Long.parseLong(context.getAttribute("r").toString());
 
-        for (String x : xValues) {
+        for (Double x : xValues) {
             Point point = new Point(x, y, r);
             boolean isHit = hitChecker.checkHit(point);
             AreaCheckResult result = new AreaCheckResult(point, isHit);

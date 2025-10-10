@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="models.AreaCheckResult" %>
-<%@ page import="models.AreaCheckResultRepository" %>
-<%@ page import="models.Point" %>
-<%@ page import="models.ErrorMessage" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -97,45 +94,34 @@
             <button type="submit" id="submit-button">Submit</button>
         </form>
 
-        <% ServletContext context = getServletContext(); %>
         <div id="error-message">
-            <%
-                if (context.getAttribute("error") != null) {
-                    ErrorMessage errorMessage = (ErrorMessage) context.getAttribute("error");
-                    if(errorMessage.isError()) { %>
-                        <%= errorMessage.toString() %>
-                    <%
-                        }
-                    }
-            %>
+            <c:if test="${not empty applicationScope.error and applicationScope.error.error}">
+                ${applicationScope.error}
+            </c:if>
         </div>
     </section>
 
     <section id="result">
         <table id="result-table">
-            <tr>
-                <th>X</th>
-                <th>Y</th>
-                <th>R</th>
-                <th>Result</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>R</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
             <tbody>
-            <%
-                AreaCheckResultRepository repository = (AreaCheckResultRepository) context.getAttribute("repository");
-                if(repository != null) {
-                    for(AreaCheckResult result: repository.getResults()) {
-                        Point point = result.point();
-            %>
-            <tr>
-                <th> <%= point.getXAsDouble() %> </th>
-                <th> <%= point.getYAsDouble() %> </th>
-                <th> <%= point.getRAsLong() %> </th>
-                <th> <%= result.isHit() %> </th>
-            </tr>
-            <%
-                    }
-                }
-            %>
+                <c:if test="${not empty applicationScope.repository}">
+                    <c:forEach var="result" items="${applicationScope.repository.results}">
+                        <tr>
+                            <td> ${result.point.x} </td>
+                            <td> ${result.point.y} </td>
+                            <td> ${result.point.r} </td>
+                            <td> ${result.hit} </td>
+                        </tr>
+                    </c:forEach>
+               </c:if>
             </tbody>
         </table>
     </section>
