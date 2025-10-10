@@ -11,7 +11,6 @@ import models.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet("/area-check")
 public class AreaCheckServlet extends HttpServlet {
