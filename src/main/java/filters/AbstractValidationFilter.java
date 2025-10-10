@@ -17,7 +17,7 @@ public abstract class AbstractValidationFilter implements Filter {
         this.validator = new PointValidator();
     }
 
-    protected abstract void doValidation(String value) throws IllegalArgumentException;
+    protected abstract void validateAttribute(String value) throws IllegalArgumentException;
 
     protected abstract Object filterValues(List<String> values);
 
@@ -40,7 +40,7 @@ public abstract class AbstractValidationFilter implements Filter {
         if (values != null && values.length > 0) {
             for (String value : values) {
                 try {
-                    doValidation(value);
+                    validateAttribute(value);
                     validatedValues.add(value);
                 } catch (IllegalArgumentException e) {
                     errorMessage.addMessage(e.getMessage());

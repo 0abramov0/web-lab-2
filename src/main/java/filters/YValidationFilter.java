@@ -8,7 +8,7 @@ public class YValidationFilter extends AbstractValidationFilter {
     }
 
     @Override
-    protected void doValidation(String value) throws IllegalArgumentException {
+    protected void validateAttribute(String value) throws IllegalArgumentException {
         validator.validateY(value);
     }
 

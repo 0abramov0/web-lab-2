@@ -8,7 +8,7 @@ public class XValidationFilter extends AbstractValidationFilter {
     }
 
     @Override
-    protected void doValidation(String value) throws IllegalArgumentException {
+    protected void validateAttribute(String value) throws IllegalArgumentException {
         validator.validateX(value);
     }
 
