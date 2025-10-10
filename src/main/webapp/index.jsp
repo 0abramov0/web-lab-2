@@ -103,26 +103,22 @@
 
     <section id="result">
         <table id="result-table">
-            <thead>
-                <tr>
-                    <th>X</th>
-                    <th>Y</th>
-                    <th>R</th>
-                    <th>Result</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:if test="${not empty applicationScope.repository}">
-                    <c:forEach var="result" items="${applicationScope.repository.results}">
-                        <tr>
-                            <td> ${result.point.x} </td>
-                            <td> ${result.point.y} </td>
-                            <td> ${result.point.r} </td>
-                            <td> ${result.hit} </td>
-                        </tr>
-                    </c:forEach>
-               </c:if>
-            </tbody>
+            <tr>
+                <th>X</th>
+                <th>Y</th>
+                <th>R</th>
+                <th>Result</th>
+            </tr>
+            <c:if test="${not empty applicationScope.repository}">
+                <c:forEach var="result" items="${applicationScope.repository.results}">
+                    <tr>
+                        <td> ${result.point.x} </td>
+                        <td> ${result.point.y} </td>
+                        <td> ${result.point.r} </td>
+                        <td> ${result.hit} </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
         </table>
     </section>
 
