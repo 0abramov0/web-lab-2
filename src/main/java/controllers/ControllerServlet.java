@@ -14,6 +14,11 @@ import java.io.IOException;
 public class ControllerServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("./repository.jsp").forward(request, response);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         processRequest(request, response);
@@ -28,9 +33,6 @@ public class ControllerServlet extends HttpServlet {
         if (errorMessage != null && errorMessage.isError()) {
             request.getRequestDispatcher("./index.jsp").forward(request, response);
         } else {
-            context.setAttribute("x", request.getAttribute("x"));
-            context.setAttribute("y", request.getAttribute("y"));
-            context.setAttribute("r", request.getAttribute("r"));
             context.setAttribute("allowedFromController", true);
             request.getRequestDispatcher("./area-check").forward(request, response);
         }

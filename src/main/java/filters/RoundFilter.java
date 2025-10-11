@@ -1,6 +1,7 @@
 package filters;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,12 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RoundFilter implements Filter {
+    private ServletContext context;
     private String[] expectedParameters;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         String paramNamesStr = filterConfig.getInitParameter("paramNames");
         expectedParameters = paramNamesStr.split(",");
+        context = filterConfig.getServletContext();
     }
 
     @Override
@@ -26,7 +29,7 @@ public class RoundFilter implements Filter {
             for (String value : values) {
                 roundedValues.add(roundFloatValues(value));
             }
-            request.setAttribute(parameterName, roundedValues.toArray(new String[0]));
+            context.setAttribute(parameterName, roundedValues.toArray(new String[0]));
         }
         chain.doFilter(request, response);
     }

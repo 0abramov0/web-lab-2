@@ -1,6 +1,7 @@
 package filters;
 
 import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import models.ErrorMessage;
 import models.PointValidator;
 
@@ -9,10 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractValidationFilter implements Filter {
-    public final PointValidator validator;
-    public final String attributeName;
+    private ServletContext context;
+    protected final PointValidator validator;
+    private final String attributeName;
 
-    public AbstractValidationFilter(String attributeName) {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        context = filterConfig.getServletContext();
+    }
+
+    protected AbstractValidationFilter(String attributeName) {
         this.attributeName = attributeName;
         this.validator = new PointValidator();
     }
@@ -28,7 +35,13 @@ public abstract class AbstractValidationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String[] values = (String[]) request.getAttribute(attributeName);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        if(!"POST".equals(httpRequest.getMethod())) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        String[] values = (String[]) context.getAttribute(attributeName);
         List<String> validatedValues = new ArrayList<>();
         ErrorMessage errorMessage = new ErrorMessage();
         if (isValidationError(request)) {
@@ -49,12 +62,12 @@ public abstract class AbstractValidationFilter implements Filter {
             if (filteredValues == null) {
                 errorMessage.setError(true);
             }
-            request.setAttribute(attributeName, filteredValues);
+            context.setAttribute(attributeName, filteredValues);
         } else {
             errorMessage.setError(true);
             errorMessage.addMessage(attributeName.toUpperCase() + " can't be null");
         }
-        request.setAttribute("error", errorMessage);
+        context.setAttribute("error", errorMessage);
         chain.doFilter(request, response);
     }
 }

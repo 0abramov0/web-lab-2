@@ -6,6 +6,10 @@
          version="4.0">
 
     <filter>
+        <filter-name>LastModificationFilter</filter-name>
+        <filter-class>filters.LastModificationFilter</filter-class>
+    </filter>
+    <filter>
         <filter-name>RoundFilter</filter-name>
         <filter-class>filters.RoundFilter</filter-class>
         <init-param>
@@ -26,6 +30,18 @@
         <filter-class>filters.RValidationFilter</filter-class>
     </filter>
 
+    <absolute-ordering>
+        <name>LastModificationFilter</name>
+        <name>RoundFilter</name>
+        <name>XValidationFilter</name>
+        <name>YValidationFilter</name>
+        <name>RValidationFilter</name>
+    </absolute-ordering>
+
+    <filter-mapping>
+        <filter-name>LastModificationFilter</filter-name>
+        <url-pattern>/controller</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>RoundFilter</filter-name>
         <url-pattern>/controller</url-pattern>

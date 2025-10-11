@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import models.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class AreaCheckServlet extends HttpServlet {
         }
 
         context.setAttribute("repository", repository);
+        context.setAttribute("lastModified", System.currentTimeMillis());
         request.getRequestDispatcher("./index.jsp").forward(request, response);
     }
 }
